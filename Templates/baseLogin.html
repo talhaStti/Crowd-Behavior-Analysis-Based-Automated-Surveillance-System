@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'node_modules/bootstrap/dist/css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/Newstyle.css' %}">
+        <!-- <link rel="stylesheet" href="{% static 'css/style.css' %}" /> -->
+    <script id="Script" type="text/javascript"
+        src="{% static 'node_modules/bootstrap/dist/js/bootstrap.bundle.js' %}"></script>
+    <title>{% block title %}
+
+        {% endblock title %}</title>
+</head>
+
+<body class="" style="overflow-x: hidden;">
+    <div id="particles-js" class=""></div>
+
+
+    <div style="background-color: white; padding-bottom: 10px;" class="d-flex  justify-content-center ">
+        <div class="me-auto align-self-center ms-2">
+            <h4 >
+                <a class="landingLink"  href="{% url 'landing'%}">
+
+                    Home
+                </a>
+            </h4>
+        </div>
+        <div class="me-auto ">
+            <h1 class="text-center  " style="color: #3c00a0;">Smart Surviellance System</h1>
+
+        </div>
+      </div>
+    {% block body %}
+
+    {% endblock body %}
+
+</body>
+<script src="{% static 'js/particles.js' %}"></script>
+<!-- <script src="{% static 'js/app.js' %}"></script> -->
+
+</html>

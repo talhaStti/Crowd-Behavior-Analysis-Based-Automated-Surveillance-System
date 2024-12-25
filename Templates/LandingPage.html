@@ -1,0 +1,321 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Violence Detection App</title>
+    <link rel="stylesheet" href="{% static 'css/Newstyle.css' %}">
+
+</head>
+<body>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    color:black;
+    box-sizing: border-box;
+
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    color: black;
+    font-family: 'Libre Franklin', sans-serif;
+}
+
+.page {
+    width: 100%;
+    height: 100%;
+    padding: 0px 60px;
+}
+
+#nav {
+    position: fixed;
+  top: 0;
+  background-color: white;
+    opacity: 1;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #000000;
+    padding: 0px 60px;
+    z-index: 6;
+}
+
+#nav li {
+
+    font-size: 20px;
+    list-style: none;
+    text-transform: uppercase;
+    padding: 0px 40px;
+}
+
+#nav ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.home-container {
+    width: 100%;
+    height: 600px;
+    display: flex;
+    align-items: center;
+
+}
+.page2 {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+#left h1 {
+    font-size: 90px;
+    line-height: 100px;
+    font-weight: 500;
+ 
+    text-transform: uppercase;
+}
+
+#left {
+    width: 50%;
+   z-index:1;
+}
+
+#right {
+    width: 50%;
+}
+
+#right img {
+    width: 100%;
+    z-index:-4;
+    border-radius: 30px;
+}
+.circle-img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-left: -50px;
+    object-fit: cover;
+    border: 7px solid #000;
+}
+h1 span:nth-child(1) {
+    margin-left: 40px;
+}
+
+.box{
+    width: 390px;
+    height: 300px;
+    padding: 15px;
+    margin: 50px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    border: 3px solid #fff;
+}
+
+.box h2{
+    margin-bottom:20px;
+    font-size: 40px;
+}
+.box p{
+    font-size: 20px;
+}
+@media screen and (max-width: 1000px) {
+ 
+#left {
+    width: 100%;
+  margin:50px 0;
+}
+  #right {
+    width: 100%;
+}
+  #left h1 {
+    font-size: 60px;
+    line-height:80px;
+}
+  
+ .circle-img{
+    width: 70px;
+    height: 70px;
+ border:3px solid #000;
+} 
+ #nav li {
+    font-size: 16px;
+   padding: 0px 20px;
+} 
+.home-container {
+flex-direction:column;
+  height:fit-content;
+
+}
+  .box{
+    width: fit-content;
+    height: fit-content;
+    margin:20px;
+
+}
+  #right img {
+    width: 100%;
+    z-index:-4;
+    border-radius: 30px;
+}
+  .box h2{
+    margin-bottom:20px;
+    font-size: 30px;
+}
+.box p{
+    font-size: 15px;
+}
+}
+    </style>
+        <div id="particles-js" class=""></div>
+
+        <div id="nav">
+            <h1>Violence Detection App</h1>
+            <ul>
+                <a href="#page1">
+                    <li>Home</li>
+
+                </a>
+                <a href="#about">
+
+                    <li>About</li>
+                </a>
+                <a href="#contact">
+
+                    <li>Contact</li>
+                </a>
+            </ul>
+            <a href="{% url 'login_view' %}">
+
+                <h2>Login</h2>
+            </a>
+            <a href="{% url 'register' %}">
+
+                <h2>Register</h2>
+            </a>
+        </div>
+    <div class="page" id="page1">
+        
+        <div class="home-container">
+            <div id="left" >
+        <h1>Violence</h1>
+        <h1>Detection</h1>
+        <h1>
+            <span ><img class="circle-img" src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Z2lybHxlbnwwfHwwfHx8Mg%3D%3D" alt=""></span>
+            <span ><img class="circle-img" src="https://images.unsplash.com/photo-1631947430066-48c30d57b943?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Z2lybHxlbnwwfHwwfHx8Mg%3D%3D" alt=""></span>
+            <span ><img class="circle-img" src="https://images.unsplash.com/photo-1635488640163-e5f6782cda6e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGdpcmx8ZW58MHx8MHx8fDI%3D" alt=""></span>
+         
+            App</h1>
+            </div>
+            <div id="right">
+        <!-- <img src="https://images.unsplash.com/photo-1462429280163-fd0893be82e7?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" srcset=""> -->
+            </div>
+        </div>
+        </div>
+        <div  id="about" class="page">
+            <div class="home-container">
+                <div id="left" >
+                    <h1>About</h1>
+                    <h1>Us</h1>
+           
+                        </div>
+
+                        <div id="right" >
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque ratione qui delectus. Nostrum alias quia ut ducimus veniam placeat harum explicabo earum aliquid asperiores provident culpa odit, impedit nesciunt, doloribus numquam commodi dolore ipsum! Praesentium blanditiis, voluptates, sed ipsam eius, rerum tempora repudiandae itaque eveniet similique dignissimos corporis ut mollitia!</p>
+                   
+                                </div>
+            </div>
+    
+        </div>
+        
+        <div id="contact" class="page2">
+
+            <div class="box">
+            <h2>Mail</h2>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Beatae in perferendis expedita repudiandae doloribus quaerat officia accusamus voluptatem. Alias, soluta.</p>
+            
+            </div>
+            <div class="box">
+                <h2>Facebook</h2>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Beatae in perferendis expedita repudiandae doloribus quaerat officia accusamus voluptatem. Alias, soluta.</p>
+            
+            </div>
+            <div class="box">
+                <h2>Instagram</h2>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Beatae in perferendis expedita repudiandae doloribus quaerat officia accusamus voluptatem. Alias, soluta.</p>
+            
+            </div>
+            </div>
+         
+        
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js" integrity="sha512-7Au1ULjlT8PP1Ygs6mDZh9NuQD0A5prSrAUiPHMXpU6g3UMd8qesVnhug5X4RoDr35x5upNpx0A6Sisz1LSTXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/ScrollTrigger.min.js" integrity="sha512-LQQDtPAueBcmGXKdOBcMkrhrtqM7xR2bVrnMtYZ8ImAZhFlIb5xrMqQ6uZviyeSB+4mYj89ta8niiCIQM1Gj0w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        
+        
+</body>
+<script src="{% static 'js/particles.js' %}"></script>
+
+<script>
+
+
+let time = gsap.timeline()
+
+
+
+time.from("#left h1", {
+    x:-100,
+    delay:1,
+    opacity:0,
+    duration:1,
+    stagger:0.3
+})
+time.from("#right img", {
+    scale:0,
+    opacity:0,
+    duration:1,
+    stagger:0.1
+})
+time.from("#right p", {
+    scale:0,
+    opacity:0,
+    duration:1,
+    stagger:0.1
+})
+
+gsap.from("#about .box", {
+    y:-100,
+    opacity:0,
+    duration:1,
+    stagger:0.4,
+    scrollTrigger:"#about .box"
+
+})
+gsap.from("#contact .box", {
+    y:-100,
+    opacity:0,
+    duration:1,
+    stagger:0.4,
+    scrollTrigger:"#contact .box"
+
+})
+</script>
+</html>

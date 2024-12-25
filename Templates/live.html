@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Secondary Dashboard
+{% endblock title %}
+{% block body %}
+    <div class="col-12 d-flex justify-content-center">
+        <div>
+            <div>
+                <video id="videoPlayer" width="720" height="620" controls></video>
+            </div>
+            <div class="d-flex flex-column align-items-center">
+                <div class="d-flex flex-column justify-content-center">
+                    <input class="form-control" id="Val" type="text" value="Not Classified yet" aria-label="readonly input example">
+                    <button class="btn btn-primary videoSubmit mt-2" onclick="startProcessing()">Start Processing</button>
+                    <button class="btn btn-primary videoSubmit mt-2" onclick="stopProcessing()">Stop Processing</button>
+                </div>
+                <br><br>
+                <h2><span class="navbar-text" id="duration"></span></h2>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then((stream) => {
+                const videoPlayer = document.getElementById('videoPlayer');
+                videoPlayer.srcObject = stream;
+            })
+            .catch((error) => console.error('Error accessing camera:', error));
+        
+        let flag = true;
+        let beep;
+
+        // Function to create and play beep sound
+        function playBeep() {
+            if (beep) {
+                beep.pause(); // Pause previous beep if it's playing
+            }
+            beep = new Audio('/static/alert_sound.weba');
+            beep.play();
+        }
+
+        function startProcessing() {
+            flag = true;
+            const videoPlayer = document.getElementById('videoPlayer');
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = videoPlayer.videoWidth;
+            canvas.height = videoPlayer.videoHeight;
+
+            function sendFrame() {
+                let imageData;
+                const formData = new FormData();
+                for (let i = 0; i < 16; i++) {
+                    context.drawImage(videoPlayer, 0, 0, canvas.width, canvas.height);
+                    imageData = canvas.toDataURL('image/jpeg');
+                    console.log(imageData);
+                    formData.append(`image${i}`, imageData);
+                }
+
+                formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+                // fetch('http://127.0.0.1:8000/live_classification', {
+                //     method: 'POST',
+                //     body: formData,
+                // })
+                fetch('/live_classification', {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => response.text())
+                .then(data => {
+                    console.log('Server response:', data);
+                    const bgDiv = document.getElementById("particles-js");
+                    if (data === "Violent") {
+                        document.getElementById("Val").value = data;
+                        bgDiv.classList.add("danger");
+                        playBeep();
+                    } else {
+                        document.getElementById("Val").value = "Normal Frame";
+                        bgDiv.classList.remove("danger");
+                        if (beep) {
+                            beep.pause(); // Pause beep if it's playing
+                        }
+                    }
+                    console.log("normal")
+                    if(flag) {
+                        sendFrame();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error sending frames to the server:', error);
+                    if(flag) {
+                        sendFrame();
+                    }
+                });
+            }
+
+            if(flag) {
+                sendFrame();
+            }
+        }
+
+        function stopProcessing() {
+            flag = false;
+            if (beep) {
+                beep.pause(); // Pause beep if it's playing
+            }
+            const bgDiv = document.getElementById("particles-js"); // Get the bgDiv element
+            bgDiv.classList.remove("danger"); // Remove the "danger" class from bgDiv
+            document.getElementById("Val").value = "Processing Stopped"; // Optionally, update the input field to indicate processing has stopped
+        }
+    </script>
+    <style>
+      
+    </style>
+{% endblock body %}

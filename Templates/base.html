@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'node_modules/bootstrap/dist/css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/Newstyle.css' %}">
+    <script id="Script" type="text/javascript"
+        src="{% static 'node_modules/bootstrap/dist/js/bootstrap.bundle.js' %}"></script>
+    <title>{% block title %}
+
+        {% endblock title %}</title>
+</head>
+
+<body class="" style="overflow-x: hidden;">
+    <div id="particles-js" class=""></div>
+
+
+    
+    <div class="container-fluid" ">
+   
+        
+        <div class="row flex-nowrap">
+          <div class=" col-2 px-0 bg-primary "  >
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                <a href="{% url 'dashboard' %}" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <h1>
+                        Violence Detection App
+                    </h1>
+                </a>
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start " id="menu">
+                    <!-- <li class="nav-item">
+                        <a href="{% url 'dashboard' %}" class="nav-link align-middle px-0">
+                            <span class="ms-1  d-sm-inline text-white">Dashboard</span>
+                        </a>
+                    </li> -->
+                    <li class="nav-item">
+                        <a href="{% url 'dashboard' %}" class="nav-link align-middle px-0">
+                            <span class="ms-1  d-sm-inline text-white">Recorded Video</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'live' %}" class="nav-link align-middle px-0">
+                            <span class="ms-1  d-sm-inline text-white">Live Classification</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'logs_view' %}" class="nav-link align-middle px-0">
+                            <i class="fs-4 bi-house"></i> <span class="ms-1  d-sm-inline text-white mngCusLink">Logs</span>
+                        </a>
+                    </li>
+                   <!-- create a dropdown di here -->
+                    <li class="nav-item">
+                        
+                      <a href="{% url 'Logout' %}" class="nav-link align-middle px-0">
+                          <i class="fs-4 bi-house"></i> <span class="ms-1  d-sm-inline text-white logout">Logout</span>
+                      </a>
+                  </li>
+                </ul>
+
+            </div>
+        </div>
+
+        <div class="col-10  ">
+            <div class="row">
+                <div class="col-12 d-flex justify-content-end sticky-top userLogin mt-2">
+                    <div class="d-flex justify-content-around align-items-center">
+                        <div>
+                            
+                            <img class="pfp" src=
+                            
+                            {% if pfp  %}
+                            
+                            "{{pfp.url}}" 
+                            {% else %}
+                            "{% static 'image/defaultPfp.jpeg' %}"
+                            {% endif %}
+                            width="50px" height="50px" alt="">
+                        </div>
+                        <div class=" ms-2">
+                            <a href="{% url 'profile' %}">
+
+                                <button class="btn btn-primary " id="userBtn">
+                                    
+                                    Welcome {{username}}
+                                </button>
+                            </a>
+                           
+                        </div>
+                        
+                
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+
+
+           
+    {% block body %}
+
+    {% endblock body %}
+
+
+</div>
+</div>
+</div>
+</body>
+<script src="{% static 'js/particles.js' %}"></script>
+<!-- <script src="{% static 'js/app.js' %}"></script> -->
+<script>
+  
+
+    // userDropdown.addEventListener("mouseleave", function () {
+    //     userDropdown.style.display = "none";
+    // });
+</script>
+</html>

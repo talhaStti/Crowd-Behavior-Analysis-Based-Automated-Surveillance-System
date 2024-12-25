@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    <div class="container">
+      {% csrf_token %}
+      <div class="form-box">
+        <h1 id="title">Login</h1>
+        <form action="{% url 'login' %}" method="post">
+          <div class="input-group">
+            <div class="inputfield" id="Username">
+              <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Username"
+                required
+              />
+            </div>
+          </div>
+          <div class="input-group">
+            <div class="inputfield">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter password"
+                required
+              />
+            </div>
+          </div>
+          {% csrf_token %}
+          <div class="btn-field">
+            <button type="submit" id="signInbtn">Login</button>
+            <p>not a user? <a href="register">click here to register</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+    {% if messages %} {% for message in messages %} {% if message.tags %}
+    <script>
+      alert("{{ message }}");
+    </script>
+    {% endif %} {% endfor %} {% endif %}
+    <style>
+      body {
+        background-image: url("https://images.unsplash.com/photo-1523191504937-f00111b11d8c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80");
+        background-size: cover;
+      }
+    </style>
+  </body>
+</html>

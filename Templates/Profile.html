@@ -1,0 +1,168 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Profile
+{% endblock title %}
+{% block body %}
+  
+    
+    <div class="col-12 d-flex justify-content-center mt-2">
+ 
+   <div class="row">
+    <div class="col-12">
+      <h1 class="text-center">
+        Your information
+      </h1>
+    </div>
+    <div class="col-6 " >
+      <div class="profileDiv">
+
+      
+      <h1 class="mb-5 profileinfo">
+        First Name: <span>
+
+          {{user.first_name}}
+        </span>
+      </h1>
+    
+      <h1 class="my-5 profileinfo">
+        Last Name: <span>
+
+          {{user.last_name}}
+        </span>
+      </h1>
+      <h1 class="my-5 profileinfo">
+        Username: <span>
+
+          {{user.username}}
+        </span>
+      </h1>
+    </div>
+    <div class="profileDiv">
+
+    
+      <form action="{% url 'updateInfo' %}" class="" method="post">
+        <h1 class="text-center font-weight-bolder">Update</h1>
+
+        <div class="input-group">
+          <div class="inputfield" id="Username">
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Username"
+            />
+          </div>
+        </div>
+  
+        <div class="input-group">
+          <div class="inputfield">
+            <input
+              type="text"
+              id="F_name"
+              name="F_name"
+              placeholder="First name"
+            />
+          </div>
+        </div>
+  
+        <div class="input-group">
+          <div class="inputfield">
+            <input
+              type="text"
+              id="L_name"
+              name="L_name"
+              placeholder="Last name"
+            />
+          </div>
+        </div>
+  
+    
+  
+
+        {% csrf_token %}
+        <div class="">
+          <div class="text-center my-3">
+
+            <button type="submit " class="btn btn-primary" >Update</button>
+          </div>
+       
+        </div>
+      </form>
+    </div>
+
+
+
+
+
+    </div>
+    <div class="col-6">
+      <img class="profileImg" src=
+                            
+      {% if pfp  %}
+      
+      "{{pfp.url}}" 
+      {% else %}
+      "{% static 'image/defaultPfp.jpeg' %}"
+      {% endif %}
+    </div>
+    <h1 class="text-center">
+      Profile Pic
+    </h1>
+    <div class="d-flex justify-content-center">
+      <form action="{% url 'updatePfp' %}" method="post" enctype="multipart/form-data"   class="">
+        {% csrf_token %}
+        <input name="pfp" required class=" form-control mx-2 my-2" type="file" accept="image/*" ">
+        <div class="d-flex justify-content-center">
+
+          <button type="submit" class="btn btn-primary" >Update</button>
+        </div>
+
+      
+    </form>
+    </div>
+   </div>
+    </div>
+    
+  <script>
+    var Video = document.getElementById("vid")
+    var counter = 0;
+    var fp = Video.src;
+    var filename = fp.replace(/^.*[\\\/]/, '');
+    // JsonObject = {
+    //   "username": "{{username}}",
+    //   "video": filename,
+    //   "timestamp": 0
+    // }
+      setInterval(function () {
+      counter++;
+      if (Video.currentTime < Video.duration) {
+    fetch('assign_value/{{video.id}}')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("Val").value = data['value'];
+      }).catch(response => {
+        console.log(response)
+      })
+    if(document.getElementById("Val").value == "violent"){
+          const bgDiv = document.getElementById("particles-js")
+          bgDiv.classList.add("danger")
+        
+  //   fetch('write_to_json', {
+  //   method: 'POST',
+  //   headers: {
+  //       'Content-Type': 'application/json',
+  //       'X-CSRFToken': '{{ csrf_token }}'
+  //   },
+  //   body: JSON.stringify(JsonObject)
+  // })
+    }
+    else{
+      var imgInit = "{%static 'image/Initial.jpg'%}";
+          document.body.style.backgroundColor = "#4CAF50";
+    }
+    }}, 300);
+  </script>
+
+{% endblock body %}

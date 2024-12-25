@@ -1,0 +1,46 @@
+
+
+.navCustom{
+    background-color: white;
+    color: black ;
+}
+.nav-link{
+    font-size: large;
+    color: black ;
+
+}
+body {
+    margin: 0;
+  }
+
+
+  .danger {
+
+    animation: colorTransition .25s ease-in-out infinite alternate;
+  }
+
+  @keyframes colorTransition {
+    0% {
+      background-color: #FF0000; /* Green */
+    }
+    100% {
+      background-color: #FF4444; /* Red */
+    }
+  }
+
+  #particles-js{
+    position: fixed;
+    background-color: #0e613a;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+  #particles-js canvas{
+    width: 100%;
+    height: 150%;
+    z-index: -1;
+  }
+
+  

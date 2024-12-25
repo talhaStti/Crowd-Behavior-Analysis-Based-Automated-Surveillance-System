@@ -1,0 +1,108 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <h1 style="text-align: center; color: azure">Smart Surviellance System</h1>
+  <body>
+    <div class="container">
+      <div class="form-box">
+        <h1 id="title">Register</h1>
+        
+        <form action="{% url 'register' %}" method="post">
+          <div class="input-group">
+            <div class="inputfield" id="Username">
+              <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Username"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="input-group">
+            <div class="inputfield">
+              <input
+                type="text"
+                id="F_name"
+                name="F_name"
+                placeholder="First name"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="input-group">
+            <div class="inputfield">
+              <input
+                type="text"
+                id="L_name"
+                name="L_name"
+                placeholder="Last name"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="input-group">
+            <div class="inputfield">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Email"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="input-group">
+            <div class="inputfield">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+                required
+              />
+            </div>
+          </div>
+          <div class="input-group">
+            <div class="inputfield">
+              <input
+                type="password"
+                id="password2"
+                name="password2"
+                placeholder="Confirm password"
+                required
+              />
+            </div>
+          </div>
+          {% csrf_token %}
+          <div class="btn-field">
+            <button type="submit" id="signUpbtn">Submit</button>
+            <p>already a user? <a href=" {% url 'register' %}">click here to login</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+    {% if messages %} {% for message in messages %} {% if message.tags %}
+    <script>
+      alert("{{ message }}");
+    </script>
+    {% endif %} {% endfor %} {% endif %}
+    <style>
+      body {
+        background-image: url("https://images.unsplash.com/photo-1609234153285-78b715b9dfd7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1748&q=80");
+      }
+    </style>
+  </body>
+</html>

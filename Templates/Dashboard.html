@@ -1,0 +1,209 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Main Dashboard
+{% endblock title %}
+{% block body %}
+  
+    
+    <div class="col-6 ps-5  d-flex justify-content-center mt-2">
+      <form action="{% url 'Classify_web' %}" class=" d-flex flex-column align-items-center" enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        <div>
+          <video width="100%" height="420" autoplay controls id="videoPlayer" name="vid" src="{{video.video.url}}"> </video><br>
+        </div>
+
+        <div class="d-flex justify-content-center">
+          <input class="form-control" id="Val" type="text" value="Not Classified yet" aria-label="readonly input example">
+        </div>
+        <br><br>
+        <div class="d-flex justify-content-around my-2" style="width: 350px;">
+          <input name="Insert" required class="form-control mx-2" type="file" accept="video/*" id="Insert" onchange="checkFileType()">
+          <button class="btn btn-primary videoSubmit" type="submit" value="submit" id="Submit">Submit</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-6 mt-2">
+      {{video.name}}
+      <table class="table table-dark table-striped" id="videoTable">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Current State</th>
+            <th scope="col">Violence Detected</th>
+            <th scope="col">Progress</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+      </table>
+    </div>
+      
+  <script>
+  /*
+    when ever a video is uploaded add its id and name etc to the local storage 
+    start processing that video and show the current status was violence ever detected and progress
+    upon page load start the neccesary intervals and start the processing
+    maybe remove the text field at the bottom to 
+
+
+    fetch data function running 
+    remove the background change and simply show the output in table on right side
+
+    flow
+    check if video id 
+      save the new videoId in local storage after checking for duplication
+      call startIntervals Function
+    
+    startIntervals function
+      extract all the ids from local storage
+      create intervals for all the ids with fetchData function
+      modify fetchData to update table or row of neccessary table row/cell
+    
+    create a function to initialize table and then use then fetchdata function to fetch new information
+  */
+  let storedVideoIds = JSON.parse(localStorage.getItem('videoIds')) || [];
+    let videos = [];
+    let flag = false;
+
+    {% if video %}
+      flag = true;
+    {% endif %}
+
+    if (flag){
+      const id = {{video.id}};
+      if (!storedVideoIds.includes(id)) {
+        storedVideoIds.push(id);
+        localStorage.setItem('videoIds', JSON.stringify(storedVideoIds));
+      }
+    }
+
+
+    for (let i = 0; i < storedVideoIds.length; i++) {
+      startInterval(storedVideoIds[i]);
+    }
+
+    function startInterval(id){
+      const interval = setInterval(() => {
+        fetchData(id, interval);
+      }, 800);
+    }
+
+
+
+
+
+    function fetchData(id,interval){
+      let video = {}
+      fetch(`assign_value/${id}`)
+      .then(response => response.json())
+      .then(data => {
+        video.violent =  data['value'];
+        video.progress = data['progress'];
+        video.id = id
+        video.name = data['name']
+        video.currentState = data['currentState']
+        if(data['progress'] == 100){
+          storedVideoIds = storedVideoIds.filter(i => i !== id);
+          localStorage.setItem('videoIds', JSON.stringify(storedVideoIds));
+          clearInterval(interval)
+          setTimeout(() => {
+            deleteTableRowById(id)
+          }, 3000);
+        }
+        appendTableRow(video);
+      })
+      .catch(response => {
+        console.log(response);
+      });
+    }
+    //   /* these if else clauses will be removed and data will be stored in the table*/
+    // if(document.getElementById("Val").value == "violent"){
+    //       const bgDiv = document.getElementById("particles-js")
+    //       bgDiv.classList.add("danger")
+    // }
+    // else if(document.getElementById("Val").value == "Normal"){
+    //       // clearInterval(interval)
+    // }
+    // else{
+    //   var imgInit = "{%static 'image/Initial.jpg'%}";
+    //       document.body.style.backgroundColor = "#4CAF50";
+    // }
+    
+
+    // Function to check if the uploaded file is in MP4 format
+    // function checkFileType() {
+    //   const input = document.getElementById('Insert');
+    //   const fileName = input.value;
+    //   const extension = fileName.split('.').pop().toLowerCase();
+
+    //   if (extension !== 'mp4') {
+    //     alert('Only MP4 files can be played in the browser. The prediction model will still work for the uploaded video.');
+    //   }
+    //   clearInput();
+    // }
+
+    function appendTableRow(video) {
+      const table = document.getElementById('videoTable');
+      const existingRow = table.querySelector(`tr[data-id="${video.id}"]`);
+
+      if (existingRow) {
+        existingRow.cells[0].textContent = video.id;
+        existingRow.cells[1].textContent = video.currentState;
+        existingRow.cells[2].textContent = video.violent;
+        existingRow.cells[3].textContent = video.progress;
+      } else {
+        const newRow = table.insertRow();
+        const idCell = newRow.insertCell(0);
+        const currentStateCell = newRow.insertCell(1);
+        const violentCell = newRow.insertCell(2);
+        const progressCell = newRow.insertCell(3);
+
+        idCell.textContent = video.id;
+        currentStateCell.textContent = video.currentState;
+        violentCell.textContent = video.violent;
+        progressCell.textContent = video.progress;
+
+        newRow.setAttribute('data-id', video.id);
+      }
+    }
+
+
+    function deleteTableRowById(id) {
+      const table = document.getElementById('videoTable');
+      const rowToDelete = table.querySelector(`tr[data-id="${id}"]`);
+
+      if (rowToDelete) {
+        rowToDelete.remove();
+      }
+    }
+
+    function clearInput() {
+      const input = document.getElementById('Insert');
+      input.value = '';
+    }
+
+    
+
+    // Add an event listener to the file input to check the file type when changed
+    // document.getElementById('Insert').addEventListener('change', checkFileType);
+
+
+
+  </script>
+ <script>
+  // Function to check if the uploaded file is in MP4 format
+  function checkFileType() {
+    const input = document.getElementById('Insert');
+    const fileName = input.value;
+    const extension = fileName.split('.').pop().toLowerCase();
+
+    if (extension !== 'mp4') {
+      alert('Invalid Video Format, Only MP4 files can be played in the browser. The prediction model will still work for the uploaded video.');
+    }
+  }
+</script>
+
+{% endblock body %}

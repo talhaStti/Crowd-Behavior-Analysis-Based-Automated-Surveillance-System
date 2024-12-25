@@ -1,0 +1,78 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Main Dashboard
+{% endblock title %}
+{% block body %}
+<style>
+    #slideshow {
+        max-width: 800px;
+        margin: auto;
+        overflow: hidden;
+    }
+
+    .slide {
+        display: none;
+    }
+
+    img {
+        width: 100%;
+    }
+</style>
+    <br>
+    <div class="container">
+ 
+        <center>
+      
+          <div>
+            <div></div>
+            <video width ="820" height="680" autoplay muted controls="controls" id="vid" name="vid" src="{{video.video.url}}"> </video><br>
+          </div>
+          <div>
+            <div></div>
+ 
+        </div>
+        <div id="slideshow">
+            {% for img in violentFrames  %}
+            <div class="slide">
+                <img src="/media/violent_{{video.id}}/{{img}}" alt="">
+            </div>
+            {% endfor %}
+    
+        </div>
+        
+        <button onclick="prevSlide()">Previous</button>
+        <button onclick="nextSlide()">Next</button>
+        
+        <script>
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.slide');
+        
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    if (i === index) {
+                        slide.style.display = 'block';
+                    } else {
+                        slide.style.display = 'none';
+                    }
+                });
+            }
+        
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+        
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            }
+        
+            // Initial display
+            showSlide(currentSlide);
+        </script>
+      </center>
+    </div>
+    
+    {% endblock body %}

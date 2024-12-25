@@ -1,0 +1,69 @@
+{% load static %}
+{% load allauth %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+<body>
+    <div class="container">
+     
+        <div class="form-box">
+            <h1 id="title">Login</h1>
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="input-group">
+                    <div class="inputfield" id="Username">
+                      <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Username"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="input-group">
+                    <div class="inputfield">
+                      <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter password"
+                        required
+                      />
+                    </div>
+                  </div>
+                <div class="btn-field">
+                    <button type="submit" id="signInbtn">Login</button>
+                    <p>not a user? <a href="{% url 'register' %}">click here to register</a></p>
+                    <p>or</p>
+                    <a href="{% provider_login_url 'google' %}">Login abs Google</a>
+                    <!-- <a href="https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?client_id=711753985006-tgu7v3k7bu8kis2ciqmu8ei93gosuuav.apps.googleusercontent.com&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Faccounts%2Fgoogle%2Flogin%2Fcallback%2F&scope=email%20profile&response_type=code&state=YBo3lY0EoiVLMY91&access_type=online&service=lso&o2v=2&theme=glif&flowName=GeneralOAuthFlow">Login with Google</a> -->
+                </div>
+            </form>
+   \
+        </div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags %}
+                <script>alert("{{ message }}");</script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <style>
+        body {
+            background-image: url("https://images.unsplash.com/photo-1523191504937-f00111b11d8c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80");
+            background-size: cover;
+        }
+    </style>
+</body>
+</html>
